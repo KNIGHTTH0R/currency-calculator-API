@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 use Validator;
-use Session;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
 class HomeController extends Controller
@@ -48,7 +45,6 @@ class HomeController extends Controller
         } else {
             $client = new Client();
             $result = $client->request('GET','https://api.fixer.io/latest?base='.$request->input('base_currency'));
-
             $result =  json_decode($result->getBody()->getContents(), true);
             return view('result', ['result' => $result['rates'][$request->input('target_currency')]*$request->input('base_amount')]);
         }
